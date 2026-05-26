@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>SIEM Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script>
+
+        // Auto refresh only if search box is empty
+
+        function autoRefresh(){
+
+            let searchBox = document.getElementById("search");
+
+            if(searchBox.value === ""){
+                location.reload();
+            }
+        }
+
+        // Refresh every 5 seconds
+        setInterval(autoRefresh, 5000);
+
+    </script>
+
+</head>
+
+<body>
+
+    <h1>Web Attack Detection Dashboard</h1>
+
+    <!-- SEARCH FORM -->
+
+    <form method="POST">
+
+        <input type="text"
+               id="search"
+               name="search"
+               placeholder="Search logs..."
+               value="{{ search_query }}">
+
+        <button type="submit">Search</button>
+
+    </form>
+
+    <!-- REAL-TIME ALERT BOX -->
+
+    <div class="alert-box">
+        🚨 LATEST ALERT: {{ latest_alert }}
+    </div>
+
+    <h2>Attack Statistics</h2>
+
+    <pre>
+Total Attacks              : {{ total_attacks }}
+
+SQL Injection Attacks      : {{ sql_count }}
+
+XSS Attacks                : {{ xss_count }}
+
+Brute Force Attacks        : {{ brute_force_count }}
+    </pre>
+
+    <h2>Attack Analysis Chart</h2>
+
+    <img src="{{ url_for('static', filename='chart.png') }}" width="500">
+
+    <h2>Security Logs & Alerts</h2>
+
+    <pre>
+{{ alerts }}
+    </pre>
+
+</body>
+</html>

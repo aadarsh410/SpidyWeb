@@ -1,0 +1,98 @@
+Username: admin | Password: 1234
+Username: admin | Password: 11234
+Username: ' OR 1=1 -- | Password: test
+ALERT! SQL Injection Detected -> ' OR 1=1 -- test
+Username: admin | Password: 1234
+Username: <script>alert('hack')</script> | Password: teat
+ALERT! XSS Attack Detected -> <script>alert('hack')</script> teat
+
+TIME: 2026-05-23 23:39:55.333136
+IP: 127.0.0.1
+Username: admin
+Password: 1234
+STATUS: Normal Login
+-----------------------------------
+
+TIME: 2026-05-24 00:01:01.731337
+IP: 127.0.0.1
+Username: admin
+Password: 1234
+STATUS: Normal Login
+-----------------------------------
+
+TIME: 2026-05-24 00:05:27.317053
+IP: 127.0.0.1
+Username: aadasrh
+STATUS: Failed Login
+-----------------------------------
+
+TIME: 2026-05-24 00:05:42.628526
+IP: 127.0.0.1
+Username: admin
+STATUS: Failed Login
+-----------------------------------
+
+TIME: 2026-05-24 00:05:50.808547
+IP: 127.0.0.1
+Username: admin
+STATUS: Failed Login
+-----------------------------------
+
+TIME: 2026-05-24 00:05:50.808547
+IP: 127.0.0.1
+SEVERITY: CRITICAL
+ALERT: Brute Force Attack Detected
+FAILED ATTEMPTS: 3
+-----------------------------------
+
+TIME: 2026-05-24 00:18:31.130605
+IP: 127.0.0.1
+Username: admin
+STATUS: Failed Login
+FAILED ATTEMPTS: 1
+-----------------------------------
+
+TIME: 2026-05-24 00:18:44.084082
+IP: 127.0.0.1
+Username: admin
+STATUS: Successful Login
+-----------------------------------
+
+TIME: 2026-05-24 00:19:22.806820
+IP: 127.0.0.1
+Username: admin
+STATUS: Failed Login
+FAILED ATTEMPTS: 2
+-----------------------------------
+
+TIME: 2026-05-24 00:19:28.465777
+IP: 127.0.0.1
+Username: admin
+STATUS: Successful Login
+-----------------------------------
+
+TIME: 2026-05-24 00:34:50.009189
+IP: 127.0.0.1
+Username: admin
+STATUS: Successful Login
+-----------------------------------
+
+TIME: 2026-05-24 00:41:29.154779
+IP: 127.0.0.1
+Username: admin
+STATUS: Successful Login
+-----------------------------------
+
+TIME: 2026-05-24 00:42:36.051108
+IP: 127.0.0.1
+Username: <script>alert('hack')</script>
+STATUS: Failed Login
+FAILED ATTEMPTS: 1
+-----------------------------------
+
+TIME: 2026-05-24 00:42:36.051108
+IP: 127.0.0.1
+SEVERITY: HIGH
+ALERT: XSS Attack Detected
+INPUT: <script>alert('hack')</script> efe
+-----------------------------------
