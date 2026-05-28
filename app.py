@@ -32,7 +32,7 @@ os.makedirs("database", exist_ok=True)
 os.makedirs("static", exist_ok=True)
 
 # --------------------------
-# CREATE LOG FILE IF NOT EXISTS
+# CREATE LOG FILE
 # --------------------------
 
 if not os.path.exists("logs/access.log"):
@@ -119,7 +119,6 @@ def generate_chart(sql_count, xss_count, brute_force_count):
         brute_force_count
     ]
 
-    # Prevent empty chart error
     if sum(sizes) == 0:
         sizes = [1, 1, 1]
 
@@ -178,7 +177,10 @@ STATUS: Successful Login
 
             write_log(log_message)
 
-            return f"Welcome {username}"
+            return render_template(
+                "success.html",
+                username=username
+            )
 
         # --------------------------
         # FAILED LOGIN
@@ -228,7 +230,7 @@ INPUT: {user_input}
                     user_input
                 )
 
-                return "SQL Injection Attack Detected!"
+                return render_template("sql_alert.html")
 
         # --------------------------
         # XSS DETECTION
@@ -257,7 +259,7 @@ INPUT: {user_input}
                     user_input
                 )
 
-                return "XSS Attack Detected!"
+                return render_template("xss_alert.html")
 
         # --------------------------
         # BRUTE FORCE DETECTION
@@ -284,9 +286,9 @@ FAILED ATTEMPTS: {failed_attempts[ip_address]}
                 f"Failed Attempts: {failed_attempts[ip_address]}"
             )
 
-            return "Brute Force Attack Detected!"
+            return render_template("bruteforce_alert.html")
 
-        return "Invalid Username or Password"
+        return render_template("invalid.html")
 
     return render_template('login.html')
 
@@ -302,7 +304,6 @@ def admin():
         username = request.form['username']
         password = request.form['password']
 
-        # Admin Credentials
         ADMIN_USERNAME = "admin"
         ADMIN_PASSWORD = "admin123"
 

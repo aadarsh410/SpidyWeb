@@ -185,3 +185,129 @@ IP: 127.0.0.1
 USERNAME: admin
 STATUS: Successful Login
 -----------------------------------
+
+TIME: 2026-05-28 21:43:41.531389
+IP: 127.0.0.1
+USERNAME: ' OR 1=1 --
+STATUS: Failed Login
+FAILED ATTEMPTS: 1
+-----------------------------------
+
+TIME: 2026-05-28 21:43:41.531389
+IP: 127.0.0.1
+SEVERITY: HIGH
+ALERT: SQL Injection Detected
+INPUT: ' OR 1=1 -- 123
+-----------------------------------
+
+TIME: 2026-05-28 23:35:09.898278
+IP: 127.0.0.1
+USERNAME: ' OR 1=1 --
+STATUS: Failed Login
+FAILED ATTEMPTS: 1
+-----------------------------------
+
+TIME: 2026-05-28 23:35:09.898278
+IP: 127.0.0.1
+SEVERITY: HIGH
+ALERT: SQL Injection Detected
+INPUT: ' OR 1=1 -- wwd
+-----------------------------------
+
+TIME: 2026-05-28 23:37:15.644202
+IP: 127.0.0.1
+USERNAME: <script>alert('XSS')</script>
+STATUS: Failed Login
+FAILED ATTEMPTS: 2
+-----------------------------------
+
+TIME: 2026-05-28 23:37:15.644202
+IP: 127.0.0.1
+SEVERITY: HIGH
+ALERT: XSS Attack Detected
+INPUT: <script>alert('XSS')</script> wee
+-----------------------------------
+
+TIME: 2026-05-28 23:37:33.431462
+IP: 127.0.0.1
+USERNAME: fwe
+STATUS: Failed Login
+FAILED ATTEMPTS: 3
+-----------------------------------
+
+TIME: 2026-05-28 23:37:33.431462
+IP: 127.0.0.1
+SEVERITY: CRITICAL
+ALERT: Brute Force Attack Detected
+FAILED ATTEMPTS: 3
+-----------------------------------
+
+TIME: 2026-05-28 23:37:46.428184
+IP: 127.0.0.1
+USERNAME: ewfwf
+STATUS: Failed Login
+FAILED ATTEMPTS: 4
+-----------------------------------
+
+TIME: 2026-05-28 23:37:46.428184
+IP: 127.0.0.1
+SEVERITY: CRITICAL
+ALERT: Brute Force Attack Detected
+FAILED ATTEMPTS: 4
+-----------------------------------
+
+TIME: 2026-05-28 23:43:54.558847
+IP: 127.0.0.1
+USERNAME: wefwwf3r
+STATUS: Failed Login
+FAILED ATTEMPTS: 1
+-----------------------------------
+
+TIME: 2026-05-28 23:45:45.855810
+IP: 127.0.0.1
+USERNAME: edc
+STATUS: Failed Login
+FAILED ATTEMPTS: 1
+-----------------------------------
+
+TIME: 2026-05-28 23:48:10.348337
+IP: 127.0.0.1
+USERNAME: qw
+STATUS: Failed Login
+FAILED ATTEMPTS: 1
+-----------------------------------
+
+TIME: 2026-05-28 23:48:21.305178
+IP: 127.0.0.1
+USERNAME: jnsjfnjs
+STATUS: Failed Login
+FAILED ATTEMPTS: 2
+-----------------------------------
+
+TIME: 2026-05-28 23:48:29.586001
+IP: 127.0.0.1
+USERNAME: sdn 
+STATUS: Failed Login
+FAILED ATTEMPTS: 3
+-----------------------------------
+
+TIME: 2026-05-28 23:48:29.586001
+IP: 127.0.0.1
+SEVERITY: CRITICAL
+ALERT: Brute Force Attack Detected
+FAILED ATTEMPTS: 3
+-----------------------------------
+
+TIME: 2026-05-28 23:48:37.981178
+IP: 127.0.0.1
+USERNAME: ndsjn
+STATUS: Failed Login
+FAILED ATTEMPTS: 4
+-----------------------------------
+
+TIME: 2026-05-28 23:48:37.981178
+IP: 127.0.0.1
+SEVERITY: CRITICAL
+ALERT: Brute Force Attack Detected
+FAILED ATTEMPTS: 4
+-----------------------------------

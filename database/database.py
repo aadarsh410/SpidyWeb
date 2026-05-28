@@ -1,16 +1,28 @@
 import sqlite3
 import os
 
-# Create database folder if not exists
+# --------------------------
+# CREATE DATABASE FOLDER
+# --------------------------
+
 os.makedirs("database", exist_ok=True)
 
-# Connect database
+# --------------------------
+# CONNECT DATABASE
+# --------------------------
+
 conn = sqlite3.connect('database/siem.db')
 
-# Create cursor
+# --------------------------
+# CREATE CURSOR
+# --------------------------
+
 cursor = conn.cursor()
 
-# Create alerts table
+# --------------------------
+# CREATE ALERTS TABLE
+# --------------------------
+
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS alerts (
 
@@ -28,10 +40,22 @@ CREATE TABLE IF NOT EXISTS alerts (
 )
 ''')
 
-# Save changes
+# --------------------------
+# DELETE OLD DATA (OPTIONAL)
+# --------------------------
+
+cursor.execute("DELETE FROM alerts")
+
+# --------------------------
+# SAVE CHANGES
+# --------------------------
+
 conn.commit()
 
-# Close connection
+# --------------------------
+# CLOSE CONNECTION
+# --------------------------
+
 conn.close()
 
-print("Database and table created successfully!")
+print("Database created and old records deleted successfully!")
