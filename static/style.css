@@ -1,42 +1,83 @@
 body{
     background-color: #0f172a;
     color: white;
-    font-family: Arial;
-    padding: 20px;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
+
+/* MAIN TITLE */
 
 h1{
     color: cyan;
     text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
+
+/* SUB TITLES */
 
 h2{
     color: yellow;
 }
 
-form{
-    background-color: #1e293b;
-    padding: 20px;
-    width: 300px;
-    border-radius: 10px;
+/* CENTER CONTAINER */
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
 }
+
+/* LOGIN BOX */
+
+.login-box{
+    background-color: #1e293b;
+    padding: 30px;
+    width: 350px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px cyan;
+}
+
+/* LABELS */
+
+label{
+    font-size: 20px;
+}
+
+/* INPUT FIELDS */
 
 input{
     width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
+    padding: 12px;
+    margin-top: 8px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
 }
+
+/* BUTTON */
 
 button{
     background-color: cyan;
     color: black;
-    padding: 10px;
+    padding: 12px;
     border: none;
     width: 100%;
     font-weight: bold;
+    font-size: 16px;
+    border-radius: 5px;
     cursor: pointer;
 }
+
+button:hover{
+    background-color: #00bcd4;
+}
+
+/* LOG DISPLAY */
 
 pre{
     background-color: black;
@@ -46,6 +87,7 @@ pre{
     overflow-x: auto;
 }
 
+/* ALERT BOX */
 
 .alert-box{
     background-color: red;
@@ -58,21 +100,16 @@ pre{
     animation: blink 1s infinite;
 }
 
+/* ALERT ANIMATION */
+
 @keyframes blink{
     50%{
         opacity: 0.5;
     }
 }
 
-form{
+/* SEARCH FORM */
+
+.search-form{
     margin-bottom: 20px;
-}
-
-input{
-    padding: 10px;
-    width: 300px;
-}
-
-button{
-    padding: 10px;
 }

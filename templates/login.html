@@ -7,23 +7,44 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
+
 <body>
 
     <h1>Web Attack Detection in SIEM</h1>
 
-    <form method="POST">
+    <div class="container">
 
-        <h2>Login Form</h2>
+        <div class="login-box">
 
-        <label>Username:</label>
-        <input type="text" name="username">
+            <form method="POST">
 
-        <label>Password:</label>
-        <input type="password" name="password">
+                <h2>Login Form</h2>
 
-        <button type="submit">Login</button>
+                <label>Username:</label>
 
-    </form>
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter Username"
+                    required
+                >
+
+                <label>Password:</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    required
+                >
+
+                <button type="submit">Login</button>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </body>
 </html>
