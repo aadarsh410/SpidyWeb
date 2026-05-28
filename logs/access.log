@@ -124,3 +124,64 @@ SEVERITY: CRITICAL
 ALERT: Brute Force Attack Detected
 FAILED ATTEMPTS: 3
 -----------------------------------
+
+TIME: 2026-05-28 20:36:55.884127
+IP: 127.0.0.1
+USERNAME: admin
+STATUS: Successful Login
+-----------------------------------
+
+TIME: 2026-05-28 20:37:01.440769
+IP: 127.0.0.1
+USERNAME: admin
+STATUS: Failed Login
+FAILED ATTEMPTS: 1
+-----------------------------------
+
+TIME: 2026-05-28 20:37:21.877698
+IP: 127.0.0.1
+USERNAME: admin
+STATUS: Failed Login
+FAILED ATTEMPTS: 2
+-----------------------------------
+
+TIME: 2026-05-28 20:39:45.068913
+IP: 127.0.0.1
+USERNAME: admin
+STATUS: Failed Login
+FAILED ATTEMPTS: 3
+-----------------------------------
+
+TIME: 2026-05-28 20:39:45.068913
+IP: 127.0.0.1
+SEVERITY: CRITICAL
+ALERT: Brute Force Attack Detected
+FAILED ATTEMPTS: 3
+-----------------------------------
+
+TIME: 2026-05-28 20:42:29.781912
+IP: 127.0.0.1
+USERNAME: admin
+STATUS: Failed Login
+FAILED ATTEMPTS: 4
+-----------------------------------
+
+TIME: 2026-05-28 20:42:29.781912
+IP: 127.0.0.1
+SEVERITY: CRITICAL
+ALERT: Brute Force Attack Detected
+FAILED ATTEMPTS: 4
+-----------------------------------
+
+TIME: 2026-05-28 20:45:45.928473
+IP: 127.0.0.1
+USERNAME: admin
+STATUS: Failed Login
+FAILED ATTEMPTS: 1
+-----------------------------------
+
+TIME: 2026-05-28 20:45:53.517572
+IP: 127.0.0.1
+USERNAME: admin
+STATUS: Successful Login
+-----------------------------------

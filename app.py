@@ -13,7 +13,13 @@ matplotlib.use('Agg')
 
 import matplotlib.pyplot as plt
 
-from flask import Flask, render_template, request
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    url_for
+)
 
 app = Flask(__name__)
 
@@ -24,6 +30,15 @@ app = Flask(__name__)
 os.makedirs("logs", exist_ok=True)
 os.makedirs("database", exist_ok=True)
 os.makedirs("static", exist_ok=True)
+
+# --------------------------
+# CREATE LOG FILE IF NOT EXISTS
+# --------------------------
+
+if not os.path.exists("logs/access.log"):
+
+    with open("logs/access.log", "w") as file:
+        file.write("=== SIEM LOG FILE ===\n\n")
 
 # --------------------------
 # FAILED LOGIN STORAGE
@@ -104,7 +119,7 @@ def generate_chart(sql_count, xss_count, brute_force_count):
         brute_force_count
     ]
 
-    # Prevent empty pie chart error
+    # Prevent empty chart error
     if sum(sizes) == 0:
         sizes = [1, 1, 1]
 
@@ -118,7 +133,7 @@ def generate_chart(sql_count, xss_count, brute_force_count):
 
     plt.title("Attack Analysis")
 
-    plt.savefig('static/chart.png')
+    plt.savefig("static/chart.png")
 
     plt.close()
 
@@ -140,7 +155,10 @@ def login():
 
         user_input = username + " " + password
 
-        # Demo Login Credentials
+        # --------------------------
+        # DEMO LOGIN
+        # --------------------------
+
         correct_username = "admin"
         correct_password = "1234"
 
@@ -167,6 +185,7 @@ STATUS: Successful Login
         # --------------------------
 
         if ip_address not in failed_attempts:
+
             failed_attempts[ip_address] = 0
 
         failed_attempts[ip_address] += 1
@@ -283,9 +302,13 @@ def admin():
         username = request.form['username']
         password = request.form['password']
 
-        if username == "admin" and password == "admin123":
+        # Admin Credentials
+        ADMIN_USERNAME = "admin"
+        ADMIN_PASSWORD = "admin123"
 
-            return dashboard()
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+
+            return redirect(url_for('dashboard'))
 
         return "Invalid Admin Credentials"
 
@@ -299,6 +322,7 @@ def admin():
 def dashboard():
 
     with open("logs/access.log", "r") as file:
+
         alerts = file.read()
 
     # --------------------------
@@ -318,6 +342,7 @@ def dashboard():
         for line in lines:
 
             if search_query.lower() in line.lower():
+
                 filtered_logs.append(line)
 
         alerts = "\n".join(filtered_logs)
@@ -339,7 +364,7 @@ def dashboard():
     )
 
     # --------------------------
-    # GENERATE CHART
+    # GENERATE PIE CHART
     # --------------------------
 
     generate_chart(
@@ -359,7 +384,9 @@ def dashboard():
     for line in reversed(lines):
 
         if "ALERT:" in line:
+
             latest_alert = line
+
             break
 
     # --------------------------
@@ -382,4 +409,5 @@ def dashboard():
 # --------------------------
 
 if __name__ == '__main__':
+
     app.run(debug=False)
