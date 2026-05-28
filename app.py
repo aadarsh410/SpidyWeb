@@ -1,17 +1,69 @@
+"""
+Project: Web Attack Detection SIEM
+Developer: Aadarsh
+Copyright © 2026
+"""
+
+import os
+import sqlite3
+from datetime import datetime
+
 import matplotlib
 matplotlib.use('Agg')
 
 import matplotlib.pyplot as plt
-import os
-import sqlite3
 
 from flask import Flask, render_template, request
-from datetime import datetime
 
 app = Flask(__name__)
 
 # --------------------------
-# SAVE ALERT INTO DATABASE
+# CREATE REQUIRED FOLDERS
+# --------------------------
+
+os.makedirs("logs", exist_ok=True)
+os.makedirs("database", exist_ok=True)
+os.makedirs("static", exist_ok=True)
+
+# --------------------------
+# FAILED LOGIN STORAGE
+# --------------------------
+
+failed_attempts = {}
+
+# --------------------------
+# SQL INJECTION PATTERNS
+# --------------------------
+
+sql_patterns = [
+    "' OR 1=1",
+    "OR 1=1",
+    "--",
+    "UNION SELECT"
+]
+
+# --------------------------
+# XSS PATTERNS
+# --------------------------
+
+xss_patterns = [
+    "<script>",
+    "</script>",
+    "alert(",
+    "javascript:"
+]
+
+# --------------------------
+# WRITE LOG FUNCTION
+# --------------------------
+
+def write_log(message):
+
+    with open("logs/access.log", "a") as file:
+        file.write(message)
+
+# --------------------------
+# SAVE ALERT TO DATABASE
 # --------------------------
 
 def save_alert(time, ip, attack_type, severity, details):
@@ -21,13 +73,18 @@ def save_alert(time, ip, attack_type, severity, details):
     cursor = conn.cursor()
 
     cursor.execute('''
-    INSERT INTO alerts (time, ip, attack_type, severity, details)
+    INSERT INTO alerts (
+        time,
+        ip,
+        attack_type,
+        severity,
+        details
+    )
     VALUES (?, ?, ?, ?, ?)
     ''', (time, ip, attack_type, severity, details))
 
     conn.commit()
     conn.close()
-
 
 # --------------------------
 # GENERATE PIE CHART
@@ -47,6 +104,10 @@ def generate_chart(sql_count, xss_count, brute_force_count):
         brute_force_count
     ]
 
+    # Prevent empty pie chart error
+    if sum(sizes) == 0:
+        sizes = [1, 1, 1]
+
     plt.figure(figsize=(5, 5))
 
     plt.pie(
@@ -57,45 +118,9 @@ def generate_chart(sql_count, xss_count, brute_force_count):
 
     plt.title("Attack Analysis")
 
-    # Create static folder if not exists
-    os.makedirs("static", exist_ok=True)
-
-    # Save chart
     plt.savefig('static/chart.png')
 
     plt.close()
-
-
-# --------------------------
-# STORE FAILED LOGIN ATTEMPTS
-# --------------------------
-
-failed_attempts = {}
-
-
-# --------------------------
-# SQL INJECTION PATTERNS
-# --------------------------
-
-sql_patterns = [
-    "' OR 1=1",
-    "OR 1=1",
-    "--",
-    "UNION SELECT"
-]
-
-
-# --------------------------
-# XSS PATTERNS
-# --------------------------
-
-xss_patterns = [
-    "<script>",
-    "</script>",
-    "alert(",
-    "javascript:"
-]
-
 
 # --------------------------
 # USER LOGIN ROUTE
@@ -109,16 +134,13 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        # Get IP Address
         ip_address = request.remote_addr
 
-        # Get Current Time
         current_time = datetime.now()
 
-        # Combine Input
         user_input = username + " " + password
 
-        # Demo Correct Login
+        # Demo Login Credentials
         correct_username = "admin"
         correct_password = "1234"
 
@@ -128,18 +150,15 @@ def login():
 
         if username == correct_username and password == correct_password:
 
-            status = "Successful Login"
-
             log_message = f"""
 TIME: {current_time}
 IP: {ip_address}
 USERNAME: {username}
-STATUS: {status}
+STATUS: Successful Login
 -----------------------------------
 """
 
-            with open("logs/access.log", "a") as file:
-                file.write(log_message)
+            write_log(log_message)
 
             return f"Welcome {username}"
 
@@ -147,26 +166,21 @@ STATUS: {status}
         # FAILED LOGIN
         # --------------------------
 
-        else:
+        if ip_address not in failed_attempts:
+            failed_attempts[ip_address] = 0
 
-            if ip_address not in failed_attempts:
-                failed_attempts[ip_address] = 0
+        failed_attempts[ip_address] += 1
 
-            failed_attempts[ip_address] += 1
-
-            status = "Failed Login"
-
-            log_message = f"""
+        log_message = f"""
 TIME: {current_time}
 IP: {ip_address}
 USERNAME: {username}
-STATUS: {status}
+STATUS: Failed Login
 FAILED ATTEMPTS: {failed_attempts[ip_address]}
 -----------------------------------
 """
 
-            with open("logs/access.log", "a") as file:
-                file.write(log_message)
+        write_log(log_message)
 
         # --------------------------
         # SQL INJECTION DETECTION
@@ -185,8 +199,7 @@ INPUT: {user_input}
 -----------------------------------
 """
 
-                with open("logs/access.log", "a") as file:
-                    file.write(alert)
+                write_log(alert)
 
                 save_alert(
                     str(current_time),
@@ -215,8 +228,7 @@ INPUT: {user_input}
 -----------------------------------
 """
 
-                with open("logs/access.log", "a") as file:
-                    file.write(alert)
+                write_log(alert)
 
                 save_alert(
                     str(current_time),
@@ -232,7 +244,7 @@ INPUT: {user_input}
         # BRUTE FORCE DETECTION
         # --------------------------
 
-        if ip_address in failed_attempts and failed_attempts[ip_address] >= 3:
+        if failed_attempts[ip_address] >= 3:
 
             alert = f"""
 TIME: {current_time}
@@ -243,8 +255,7 @@ FAILED ATTEMPTS: {failed_attempts[ip_address]}
 -----------------------------------
 """
 
-            with open("logs/access.log", "a") as file:
-                file.write(alert)
+            write_log(alert)
 
             save_alert(
                 str(current_time),
@@ -260,7 +271,6 @@ FAILED ATTEMPTS: {failed_attempts[ip_address]}
 
     return render_template('login.html')
 
-
 # --------------------------
 # ADMIN LOGIN ROUTE
 # --------------------------
@@ -273,18 +283,13 @@ def admin():
         username = request.form['username']
         password = request.form['password']
 
-        admin_username = "admin"
-        admin_password = "admin123"
-
-        if username == admin_username and password == admin_password:
+        if username == "admin" and password == "admin123":
 
             return dashboard()
 
-        else:
-            return "Invalid Admin Credentials"
+        return "Invalid Admin Credentials"
 
     return render_template('admin.html')
-
 
 # --------------------------
 # DASHBOARD ROUTE
@@ -334,7 +339,7 @@ def dashboard():
     )
 
     # --------------------------
-    # GENERATE PIE CHART
+    # GENERATE CHART
     # --------------------------
 
     generate_chart(
@@ -344,7 +349,7 @@ def dashboard():
     )
 
     # --------------------------
-    # REAL-TIME LATEST ALERT
+    # LATEST ALERT
     # --------------------------
 
     latest_alert = "No Alerts"
@@ -371,7 +376,6 @@ def dashboard():
         latest_alert=latest_alert,
         search_query=search_query
     )
-
 
 # --------------------------
 # RUN APPLICATION
