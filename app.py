@@ -107,22 +107,30 @@ def save_alert(time, ip, attack_type, severity, details):
 
 def generate_chart(sql_count, xss_count, brute_force_count):
 
-    labels = [
-        'SQL Injection',
-        'XSS',
-        'Brute Force'
-    ]
+    labels = []
+    sizes = []
 
-    sizes = [
-        sql_count,
-        xss_count,
-        brute_force_count
-    ]
+    # Add only existing attacks
 
-    if sum(sizes) == 0:
-        sizes = [1, 1, 1]
+    if sql_count > 0:
+        labels.append('SQL Injection')
+        sizes.append(sql_count)
 
-    plt.figure(figsize=(5, 5))
+    if xss_count > 0:
+        labels.append('XSS')
+        sizes.append(xss_count)
+
+    if brute_force_count > 0:
+        labels.append('Brute Force')
+        sizes.append(brute_force_count)
+
+    # If no attacks found
+
+    if len(sizes) == 0:
+        labels = ['No Attacks']
+        sizes = [1]
+
+    plt.figure(figsize=(6, 6))
 
     plt.pie(
         sizes,
@@ -130,12 +138,14 @@ def generate_chart(sql_count, xss_count, brute_force_count):
         autopct='%1.1f%%'
     )
 
-    plt.title("Attack Analysis")
+    plt.title(
+        "Attack Analysis",
+        fontsize=18
+    )
 
     plt.savefig("static/chart.png")
 
     plt.close()
-
 # --------------------------
 # USER LOGIN ROUTE
 # --------------------------
