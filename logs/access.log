@@ -311,3 +311,45 @@ SEVERITY: CRITICAL
 ALERT: Brute Force Attack Detected
 FAILED ATTEMPTS: 4
 -----------------------------------
+
+TIME: 2026-05-28 23:54:40.426379
+IP: 127.0.0.1
+USERNAME: ' OR 1=1 --
+STATUS: Failed Login
+FAILED ATTEMPTS: 1
+-----------------------------------
+
+TIME: 2026-05-28 23:54:40.426379
+IP: 127.0.0.1
+SEVERITY: HIGH
+ALERT: SQL Injection Detected
+INPUT: ' OR 1=1 -- saa
+-----------------------------------
+
+TIME: 2026-05-28 23:58:14.071192
+IP: 127.0.0.1
+USERNAME: <script>alert('XSS')</script>
+STATUS: Failed Login
+FAILED ATTEMPTS: 2
+-----------------------------------
+
+TIME: 2026-05-28 23:58:14.071192
+IP: 127.0.0.1
+SEVERITY: HIGH
+ALERT: XSS Attack Detected
+INPUT: <script>alert('XSS')</script> dsnn
+-----------------------------------
+
+TIME: 2026-05-28 23:58:43.543660
+IP: 127.0.0.1
+USERNAME: nerm
+STATUS: Failed Login
+FAILED ATTEMPTS: 3
+-----------------------------------
+
+TIME: 2026-05-28 23:58:43.543660
+IP: 127.0.0.1
+SEVERITY: CRITICAL
+ALERT: Brute Force Attack Detected
+FAILED ATTEMPTS: 3
+-----------------------------------

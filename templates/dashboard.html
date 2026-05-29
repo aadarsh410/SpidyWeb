@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
     <title>SIEM Dashboard</title>
@@ -32,15 +33,20 @@
 
     <!-- SEARCH FORM -->
 
-    <form method="POST">
+    <form method="POST" class="search-form">
 
-        <input type="text"
-               id="search"
-               name="search"
-               placeholder="Search logs..."
-               value="{{ search_query }}">
+        <input
+            type="text"
+            id="search"
+            name="search"
+            placeholder="Search logs..."
+            value="{{ search_query }}"
+            class="search-box"
+        >
 
-        <button type="submit">Search</button>
+        <button type="submit" class="search-btn">
+            Search
+        </button>
 
     </form>
 
@@ -64,7 +70,10 @@ Brute Force Attacks        : {{ brute_force_count }}
 
     <h2>Attack Analysis Chart</h2>
 
-    <img src="{{ url_for('static', filename='chart.png') }}" width="500">
+    <img
+        src="{{ url_for('static', filename='chart.png') }}"
+        width="500"
+    >
 
     <h2>Security Logs & Alerts</h2>
 
